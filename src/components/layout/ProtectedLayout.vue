@@ -6,16 +6,16 @@
 
       <!-- Enlaces de navegación -->
       <ul class="nav-links">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Search Hotels</a></li>
-        <li><a href="#">Activities</a></li>
-        <li><a href="#">Favorites</a></li>
+        <router-link to="/" class="nav-link">Home</router-link>
+        <router-link to="/actividades" class="nav-link">Actividades</router-link>
+        <router-link to="/favoritos" class="nav-link">Favoritos</router-link>
+        <router-link to="/perfil" class="nav-link">Perfil</router-link>
       </ul>
 
       <!-- Botones de Iniciar Sesión y Registrarse -->
       <div class="auth-buttons">
         <router-link v-if="showRegister" class="register btn btn-info mx-2" to="/register">Registrarme</router-link>
-        <router-link  v-if="showLogin" class="login btn btn-info" to="/login">Iniciar Sesión</router-link>
+        <router-link v-if="showLogin" class="login btn btn-info" to="/login">Iniciar Sesión</router-link>
       </div>
     </div>
   </nav>
@@ -23,7 +23,7 @@
 
 <script setup>
 import { defineProps } from 'vue';
- 
+
 // Define la propiedad 'showRegister'
 const props = defineProps({
   showRegister: {
@@ -68,18 +68,15 @@ const props = defineProps({
   margin: 0;
 }
 
-.nav-links li {
-  margin: 0 20px;
-}
-
-.nav-links a {
+.nav-link {
   text-decoration: none;
   color: #000;
   font-weight: bold;
   position: relative;
+  margin: 0 30px; /* Aumenta el margen entre los enlaces */
 }
 
-.nav-links a::after {
+.nav-link::after {
   content: '';
   display: block;
   width: 100%;
@@ -90,7 +87,7 @@ const props = defineProps({
   transition: transform 0.3s ease;
 }
 
-.nav-links a:hover::after {
+.nav-link:hover::after {
   transform: scaleX(1);
 }
 

@@ -16,9 +16,9 @@
   
   const images = [
     '/src/assets/img/hotel1.jpg',
-    '/src/assets/img/StayVistaLogo.png',
-    '/src/assets/img/hotel1.jpg',
-    '/src/assets/img/StayVistaLogo.png',
+    '/src/assets/img/hotel2.jpeg',
+    '/src/assets/img/hotel3.jpeg',
+    '/src/assets/img/hotel4.jpeg',
   ];
   
   const showSlide = (index) => {

@@ -4,6 +4,7 @@ import LoginView from '../views/LoginView.vue'
 import PerfilView from '../views/PerfilView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import { useAuthStore } from '../stores/authStore' // Importa el authStore
+import FavoritesView from '@/views/favoritesView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,6 +28,11 @@ const router = createRouter({
       path: '/perfil',
       name: 'perfil',
       component: PerfilView
+    },
+    {
+      path: '/favoritos',
+      name: 'favoritos',
+      component: FavoritesView
     },
     {
       path: '/about',
