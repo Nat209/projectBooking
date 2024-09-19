@@ -20,6 +20,7 @@ export const useSearchStore = defineStore('search', () => {
                 }
             });
             token.value = response.data.access_token;
+            console.log('Token de acceso:', token.value); // Verificar el token
         } catch (error) {
             console.error('Error al obtener el token de acceso', error);
         }
@@ -28,9 +29,9 @@ export const useSearchStore = defineStore('search', () => {
     const HotelNameFunction = async (hotelSearch) => {
         console.log(hotelSearch)
         try {
-         
+            if (!token.value) {
                 await getAccessToken();
-            
+            }
 
             const options = {
                 method: 'GET',
@@ -47,16 +48,16 @@ export const useSearchStore = defineStore('search', () => {
             };
 
             const response = await axios.request(options);
-            response.data;
-            
+            console.log('Respuesta de la API:', response.data); // Verificar la respuesta de la API
+            HotelName.value = response.data;
+
         } catch (error) {
-            console.error('Error al obtener los datos de hoteles', error);
+            console.error('Error al obtener los datos de hoteles', error.response ? error.response.data : error.message);
             if (error.response && error.response.status === 401) {
                 // Si el token es inválido o ha expirado, intentar obtener un nuevo token
                 await getAccessToken();
                 // Reintentar la solicitud después de obtener el nuevo token
                 await HotelNameFunction(hotelSearch);
-            
             }
         }
     }

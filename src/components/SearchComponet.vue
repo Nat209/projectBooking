@@ -93,10 +93,10 @@ const room = ref(null);
 
 // Watcher para nameHotel
 watch(nameHotel, async (newValue) => {
-  console.log(newValue); // Mostrar el valor de nameHotel cuando cambie
+  // console.log(newValue); // Mostrar el valor de nameHotel cuando cambie
   if (nameHotel.value != '') {
     await searchStore.HotelNameFunction(newValue);
-    console.log(await searchStore.hotelName);
+   
   }
 });
 </script>

@@ -10,11 +10,11 @@ export const useUserStore = defineStore('user', () => {
   const use_id = authStore.use_id
   
 
-  const read = async (nombre,correo, contrasena) => {
+  const read = async () => {
     console.log(nombre, correo, contrasena)
     try {
       // Usar axios.post de la forma correcta
-      const response = await axios.post(`http://localhost:3000/api/usuario/${use_id}`, {
+      const response = await axios.get(`http://localhost:3000/api/usuario/${use_id}`, {
        
       })
       console.log(response)
@@ -25,11 +25,11 @@ export const useUserStore = defineStore('user', () => {
       console.error(error)
     }
   }
-  const create = async () => {
+  const create = async (nombre,correo, contrasena) => {
     console.log(nombre, correo, contrasena)
     try {
       // Usar axios.post de la forma correcta
-      const response = await axios.get(`http://localhost:3000/api/usuario/`, {
+      const response = await axios.post(`http://localhost:3000/api/usuario`, {
         nombre: nombre,
         correo: correo,
         contrasena: contrasena
