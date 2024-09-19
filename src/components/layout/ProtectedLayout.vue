@@ -14,8 +14,7 @@
 
       <!-- Botones de Iniciar Sesión y Registrarse -->
       <div class="auth-buttons">
-        <router-link v-if="showRegister" class="register btn btn-info mx-2" to="/register">Registrarme</router-link>
-        <router-link v-if="showLogin" class="login btn btn-info" to="/login">Iniciar Sesión</router-link>
+        <router-link v-if="showLogin" class="login btn btn-danger" to="/">Cerrar Sesión</router-link>
       </div>
     </div>
   </nav>
