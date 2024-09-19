@@ -39,10 +39,10 @@
           <div class="col-sm-12 col-md-6 col-lg-4">
             <div class="input-group">
               <span class="input-group-text"><i class="bi bi-person"></i></span>
-              <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <button class="form-control  dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Adultos-Niños-Habitaciones
               </button>
-              <ul class="dropdown-menu">
+              <ul class="dropdown-menu ">
                 <li class="px-3 py-2">
                   <div class="d-flex justify-content-between">
                     <label>Adultos</label>

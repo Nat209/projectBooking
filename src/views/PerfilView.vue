@@ -13,16 +13,18 @@
       <div class="profile-details">
         <div class="detail">
           <h3>Nombre</h3>
-          <p>{{ userName }}</p>
+          <p>{{ user.nombre }}</p>
         </div>
         <div class="detail">
           <h3>Correo</h3>
-          <p>{{ userEmail }}</p>
+          <p>{{  user.correo }}</p>
         </div>
       </div>
       <!--<button class="btn edit-btn w-100">Editar Perfil</button>-->
     </div>
   </div>
+
+
 </template>
 
 <script setup>
@@ -31,14 +33,12 @@ import { ref, onMounted } from 'vue';
 import { useUserStore } from '@/stores/userStore';
 
 const userStore = useUserStore();
-const userName = ref('');
-const userEmail = ref('');
-const userPhoto = ref('');
+const user= ref('')
 
 onMounted(async () => {
   await userStore.read();
-  userName.value = userStore.userName;
-  userEmail.value = userStore.userEmail;
+  user.value = await userStore.user;
+  console.log('Usuario:',user.value); // Verifica qué datos se están cargando
   userPhoto.value = userStore.userPhoto || '/src/assets/img/default-profile.jpg';
 });
 

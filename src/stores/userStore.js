@@ -2,12 +2,14 @@ import { ref } from 'vue'
 import axios from 'axios'
 import { defineStore } from 'pinia'
 import router from '../router/index'
-import { useAuthStore } from './authStore'
+import { useAuthStore } from './authStore.js'
 
 
 export const useUserStore = defineStore('user', () => {
   const authStore =useAuthStore()
   const use_id = authStore.use_id
+
+  const user=ref('')
   
 
   const read = async () => {
@@ -19,6 +21,7 @@ export const useUserStore = defineStore('user', () => {
           'authorization': `${authStore.token}`
         }
       })
+      user.value= response.data
       console.log(response.data)
       
     } catch (error) {
@@ -35,6 +38,7 @@ export const useUserStore = defineStore('user', () => {
         contrasena: contrasena
       })
       console.log(response)
+     
       router.push('/login')
 
       
@@ -47,6 +51,7 @@ export const useUserStore = defineStore('user', () => {
 
   return {
     create,
-    read
+    read,
+    user
   }
 })
