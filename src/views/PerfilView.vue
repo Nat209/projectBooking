@@ -27,13 +27,13 @@ import GeneralLayout from '@/components/layout/ProtectedLayout.vue';
 import { ref, computed, onMounted } from 'vue';
 import { useUserStore } from '@/stores/userStore';
 
-const authStore = useUserStore();
+const userStore = useUserStore();
 const userName = ref('');
 const userEmail = ref('');
 
-onMounted(() => {
-  userName.value = authStore.use_id;  // Puedes ajustar esto para obtener el nombre si lo tienes en el store
-  userEmail.value = authStore.use_mail;
+onMounted(async() => {
+  await userStore.read()
+  
 });
 </script>
 

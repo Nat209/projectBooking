@@ -5,17 +5,18 @@
       <form action="">
         <div class="row g-3">
           <div class="col-2">
-            <div class="input-group">
+            <div class="input-group position-relative">
               <span class="input-group-text"><i class="bi bi-geo"></i></span>
-              <input class="form-control" type="text" placeholder="Nombre de Hotel" v-model="nameHotel">
+              <input class="form-control" type="text" placeholder="Nombre de Hotel" @input="handlHotelName" v-model="place">
+              <!-- Lista de Sugerencias -->
+              <ul v-if="suggestions.length > 0" class="suggestions-list">
+                <li v-for="(suggestion, index) in suggestions" :key="index" @click="selectSuggestion(suggestion)">
+                  {{ suggestion.name }}
+                </li>
+              </ul>
             </div>
           </div>
-          <div class="col-2">
-            <div class="input-group">
-              <span class="input-group-text"><i class="bi bi-geo"></i></span>
-              <input class="form-control" type="text" placeholder="Dónde quieres ir" @click="handleLocation()" v-model="place">
-            </div>
-          </div>
+          
           <div class="col-2">
             <div class="input-group">
               <span class="input-group-text"><i class="bi bi-building"></i></span>
@@ -78,27 +79,24 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, computed } from 'vue';
 import { useSearchStore } from '@/stores/searchStore';
 
-const searchStore = useSearchStore();
+const searchStore = useSearchStore()
 
-const nameHotel = ref('');
-const place = ref('');
-const dateStart = ref(null);
-const dateEnd = ref(null);
-const adults = ref(null);
-const children = ref(null);
-const room = ref(null);
+const place = ref('')
+const suggestions = computed(() => searchStore.HotelNameSuggestion)
 
-// Watcher para nameHotel
-watch(nameHotel, async (newValue) => {
-  // console.log(newValue); // Mostrar el valor de nameHotel cuando cambie
-  if (nameHotel.value != '') {
-    await searchStore.HotelNameFunction(newValue);
-   
+const handlHotelName = async () => {
+  if (place.value !== '') {
+    await searchStore.HotelNameFunction(place.value);
   }
-});
+}
+
+const selectSuggestion = (suggestion) => {
+  nameHotel.value = suggestion.name;
+  searchStore.HotelNameSuggestion = []; // Limpiar sugerencias después de seleccionar
+}
 </script>
 
 <style scoped>
@@ -109,5 +107,27 @@ watch(nameHotel, async (newValue) => {
 
 .input-group {
   margin-top: 1em;
+}
+
+.suggestions-list {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.suggestions-list li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.suggestions-list li:hover {
+  background-color: #f0f0f0;
 }
 </style>
