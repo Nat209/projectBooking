@@ -1,35 +1,29 @@
 <template>
-  <div>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar w/ text</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarText">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Features</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Pricing</a>
-            </li>
-          </ul>
-          <!-- Condicional para mostrar/ocultar el botón de 'Registrarme' -->
-          <router-link v-if="showRegister" class="register btn btn-info mx-2" to="/register">Registrarme</router-link> 
-          <router-link  v-if="showLogin" class="login btn btn-info" to="/login">Iniciar Sesión</router-link>
-        </div>
+  <nav class="navbar">
+    <div class="navbar-content">
+      <!-- Logotipo -->
+      <img src="/src/assets/img/StayVistaLogo.png" alt="StayVista Logo" class="logo">
+
+      <!-- Enlaces de navegación -->
+      <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Search Hotels</a></li>
+        <li><a href="#">Activities</a></li>
+        <li><a href="#">Favorites</a></li>
+      </ul>
+
+      <!-- Botones de Iniciar Sesión y Registrarse -->
+      <div class="auth-buttons">
+        <router-link v-if="showRegister" class="register btn btn-info mx-2" to="/register">Registrarme</router-link>
+        <router-link  v-if="showLogin" class="login btn btn-info" to="/login">Iniciar Sesión</router-link>
       </div>
-    </nav>
-  </div>
+    </div>
+  </nav>
 </template>
 
 <script setup>
 import { defineProps } from 'vue';
-
+ 
 // Define la propiedad 'showRegister'
 const props = defineProps({
   showRegister: {
@@ -42,3 +36,93 @@ const props = defineProps({
   }
 });
 </script>
+
+<style scoped>
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #fff; /* Fondo blanco */
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Sombra */
+}
+
+.navbar-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.logo {
+  width: 130px; /* Ajusta el tamaño del logo */
+  height: auto;
+  margin-right: 20px;
+}
+
+.nav-links {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-links li {
+  margin: 0 20px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+  position: relative;
+}
+
+.nav-links a::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: #000;
+  margin-top: 5px;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.nav-links a:hover::after {
+  transform: scaleX(1);
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.login-btn,
+.register-btn {
+  padding: 10px 20px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 5px;
+  border: none;
+}
+
+.login-btn {
+  background-color: #6fefff; /* Color azul claro */
+  color: #000;
+}
+
+.register-btn {
+  background-color: #ff8c6f; /* Color naranja claro */
+  color: #000;
+}
+
+.login-btn:hover {
+  background-color: #5fd8e3; /* Color hover */
+}
+
+.register-btn:hover {
+  background-color: #ff7153; /* Color hover */
+}
+</style>
