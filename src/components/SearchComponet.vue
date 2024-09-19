@@ -2,44 +2,75 @@
   <div class="search">
     <h2 class="text-light">Hotel que se adapte a tus preferencias</h2>
     <div class="text-center">
-      <form @submit.prevent="performSearch">
+      <form action="">
         <div class="row g-3">
-          <div class="col-3">
-            <div class="input-group position-relative">
+          <div class="col-2">
+            <div class="input-group">
               <span class="input-group-text"><i class="bi bi-geo"></i></span>
-              <input 
-                class="form-control" 
-                type="text" 
-                placeholder="Dónde quieres ir" 
-                @click="handleNearby" 
-                v-model="place" 
-              />
-              <!-- Lista de sugerencias -->
-              <ul v-if="suggestions.length" class="suggestions list-group position-absolute">
-                <li 
-                  v-for="(suggestion, index) in suggestions" 
-                  :key="index" 
-                  @click="selectSuggestion(suggestion)"
-                  class="list-group-item"
-                >
-                  {{ suggestion.name }} <!-- Ajusta esto según los datos de la API -->
+              <input class="form-control" type="text" placeholder="Nombre de Hotel" v-model="nameHotel">
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-geo"></i></span>
+              <input class="form-control" type="text" placeholder="Dónde quieres ir" @click="handleLocation()" v-model="place">
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-building"></i></span>
+              <input class="form-control" type="date" placeholder="Fecha de inicio" v-model="dateStart">
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-building"></i></span>
+              <input class="form-control" type="date" placeholder="Fecha de fin" v-model="dateEnd">
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-person"></i></span>
+              <button class="input-group-text dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+               Adultos-Niños-ha..
+              </button>
+              <ul class="dropdown-menu">
+                <li class="py-2">
+                  <div class="row align-items-center px-3">
+                    <div class="col">
+                      <label class="dropdown-item">Adultos</label>
+                    </div>
+                    <div class="col">
+                      <input type="number" class="form-control" v-model="adults"/>
+                    </div>
+                  </div>
+                </li>
+                <li class="py-2">
+                  <div class="row align-items-center px-3">
+                    <div class="col">
+                      <label class="dropdown-item">Niños</label>
+                    </div>
+                    <div class="col">
+                      <input type="number" class="form-control" v-model="children"/>
+                    </div>
+                  </div>
+                </li>
+                <li class="py-2">
+                  <div class="row align-items-center px-3">
+                    <div class="col">
+                      <label class="dropdown-item">Habitaciones</label>
+                    </div>
+                    <div class="col">
+                      <input type="number" class="form-control" v-model="room"/>
+                    </div>
+                  </div>
                 </li>
               </ul>
             </div>
           </div>
-          <div class="col-3">
-            <div class="input-group position-relative">
-              <span class="input-group-text"><i class="bi bi-geo"></i></span>
-              <input 
-                class="form-control" 
-                type="number" 
-                placeholder="Dónde quieres ir" 
-                v-model="dateStart" 
-              />
-            
-            </div>
+          <div class="col-2">
+            <button class="btn btn-primary input-group">Buscar</button>
           </div>
-          <!-- Otros inputs y botones -->
         </div>
       </form>
     </div>
@@ -47,11 +78,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useSearchStore } from '@/stores/searchStore.js';
+import { ref, watch } from 'vue';
+import { useSearchStore } from '@/stores/searchStore';
 
 const searchStore = useSearchStore();
 
+const nameHotel = ref('');
 const place = ref('');
 const dateStart = ref(null);
 const dateEnd = ref(null);
@@ -59,41 +91,23 @@ const adults = ref(null);
 const children = ref(null);
 const room = ref(null);
 
-const suggestions = ref([]);
-
-const handleNearby = async () => {
-  if (place.value === '') {
-    const data = await searchStore.placesNearby();
-    suggestions.value = data; // Ajusta según los datos devueltos
+// Watcher para nameHotel
+watch(nameHotel, async (newValue) => {
+  console.log(newValue); // Mostrar el valor de nameHotel cuando cambie
+  if (nameHotel.value != '') {
+    await searchStore.HotelNameFunction(newValue);
+    console.log(await searchStore.hotelName);
   }
-};
-
-const selectSuggestion = (suggestion) => {
-  place.value = suggestion.name; // Ajusta según la estructura de datos
-  suggestions.value = []; // Limpia las sugerencias después de seleccionar una
-};
-
-const performSearch = () => {
-  // Lógica para realizar la búsqueda
-};
+});
 </script>
 
 <style scoped>
 .search {
   background-color: rgb(159, 125, 204);
-  padding: 5em;
+  padding: 2em;
 }
 
 .input-group {
   margin-top: 1em;
-}
-
-.suggestions {
-  top: 100%; /* Para colocar la lista justo debajo del input */
-  left: 0;
-  width: 100%;
-  z-index: 1000; /* Para asegurarse de que esté por encima de otros elementos */
-  max-height: 200px; /* Limita la altura de la lista */
-  overflow-y: auto; /* Agrega un scroll si la lista es muy larga */
 }
 </style>

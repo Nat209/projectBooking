@@ -8,7 +8,7 @@ export const useAuthStore = defineStore('auth', () => {
   const use_mail = ref('')
 
   const login = async (correo, contrasena) => {
-    console.log(correo, contraseña)
+    console.log(correo, contrasena)
     try {
       // Usar axios.post de la forma correcta
       const response = await axios.post('http://localhost:3000/api/auth/login', {
@@ -21,6 +21,7 @@ export const useAuthStore = defineStore('auth', () => {
       use_id.value = response.data.user.ID_Usuario
       use_mail.value = response.data.user.correo
       console.log(token.value, use_id.value,use_mail.value)
+      
 
       
     } catch (error) {
