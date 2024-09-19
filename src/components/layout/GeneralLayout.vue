@@ -9,13 +9,12 @@
         <li><a href="#">Home</a></li>
         <li><a href="#">Search Hotels</a></li>
         <li><a href="#">Activities</a></li>
-        <li><a href="#">Favorites</a></li>
       </ul>
 
       <!-- Botones de Iniciar Sesión y Registrarse -->
       <div class="auth-buttons">
-        <router-link v-if="showRegister" class="register btn btn-info mx-2" to="/register">Registrarme</router-link>
-        <router-link  v-if="showLogin" class="login btn btn-info" to="/login">Iniciar Sesión</router-link>
+        <router-link v-if="showRegister" class="register-btn btn btn-info mx-2" to="/register">Registrarme</router-link>
+        <router-link v-if="showLogin" class="login-btn btn btn-info" to="/login">Iniciar Sesión</router-link>
       </div>
     </div>
   </nav>
@@ -23,8 +22,8 @@
 
 <script setup>
 import { defineProps } from 'vue';
- 
-// Define la propiedad 'showRegister'
+
+// Define las propiedades 'showRegister' y 'showLogin'
 const props = defineProps({
   showRegister: {
     type: Boolean,
@@ -106,23 +105,22 @@ const props = defineProps({
   cursor: pointer;
   border-radius: 5px;
   border: none;
+  color: #fff;
 }
 
 .login-btn {
   background-color: #6fefff; /* Color azul claro */
-  color: #000;
 }
 
 .register-btn {
   background-color: #ff8c6f; /* Color naranja claro */
-  color: #000;
 }
 
 .login-btn:hover {
-  background-color: #5fd8e3; /* Color hover */
+  background-color: #5fd8e3; /* Hover azul más oscuro */
 }
 
 .register-btn:hover {
-  background-color: #ff7153; /* Color hover */
+  background-color: #ff7153; /* Hover naranja más oscuro */
 }
 </style>

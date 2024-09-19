@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import { defineStore } from 'pinia'
+import router from '../router/index' // Importar el router
 
 export const useAuthStore = defineStore('auth', () => {
   const token = ref('')
@@ -15,14 +16,14 @@ export const useAuthStore = defineStore('auth', () => {
         correo: correo,
         contrasena: contrasena
       })
-      //console.log(response)
 
       token.value = response.data.token
       use_id.value = response.data.user.ID_Usuario
       use_mail.value = response.data.user.correo
-      console.log(token.value, use_id.value,use_mail.value)
-      
+      console.log(token.value, use_id.value, use_mail.value)
 
+      // Redirigir al perfil después de iniciar sesión correctamente
+      router.push('/perfil')
       
     } catch (error) {
       console.error(error)

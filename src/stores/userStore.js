@@ -10,16 +10,16 @@ export const useUserStore = defineStore('user', () => {
   const use_id = authStore.use_id
   
 
-  const read = async () => {
-    console.log(nombre, correo, contrasena)
+  const read = async (use_id) => {
+    console.log(use_id)
     try {
       // Usar axios.post de la forma correcta
       const response = await axios.get(`http://localhost:3000/api/usuario/${use_id}`, {
-       
+        headers: {
+          'authorization': `Bearer authStore.token`
+        }
       })
       console.log(response)
-      router.push('/login')
-
       
     } catch (error) {
       console.error(error)

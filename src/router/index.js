@@ -1,7 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
-import registerView from '../views/registerView.vue'
+import PerfilView from '../views/PerfilView.vue'
+import RegisterView from '../views/RegisterView.vue'
+import { useAuthStore } from '../stores/authStore' // Importa el authStore
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,17 +21,30 @@ const router = createRouter({
     {
       path: '/register',
       name: 'register',
-      component: registerView
+      component: RegisterView
+    },
+    {
+      path: '/perfil',
+      name: 'perfil',
+      component: PerfilView
     },
     {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue')
     }
   ]
 })
 
-export default router
+// Aquí es donde agregas el tercer paso (verificación de sesión)
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore(); // Usa el store para verificar si hay un token
+
+  if (to.name === 'perfil' && !authStore.token) {
+    next('/login'); // Si intenta acceder al perfil y no está autenticado, redirige a login
+  } else {
+    next(); // Si está autenticado o la ruta no es protegida, permite la navegación
+  }
+});
+
+export default router;
