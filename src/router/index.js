@@ -41,6 +41,11 @@ const router = createRouter({
       component: ActividadesView
     },
     {
+      path: '/hotelDetail/:id/:checkin/:checkout',
+      name: 'hotelDetail',
+      component: () => import('../views/HotelDetail.vue')
+    },
+    {
       path: '/about',
       name: 'about',
       component: () => import('../views/AboutView.vue')
