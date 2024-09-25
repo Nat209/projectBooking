@@ -1,13 +1,13 @@
 <script setup>
 import generalLayout from '@/components/layout/GeneralLayout.vue'
-import SearchComponnent from '@/components/SearchComponet.vue'
+import ComponentHotelDestination from '@/components/hotel/ComponentSearcHotelDestination.vue'
 
 import FooterComponent from '@/components/FooterComponent.vue';
 </script>
 
 <template>
   <generalLayout/>
-  <SearchComponnent/>
+  <ComponentHotelDestination />
   
   <FooterComponent/>
 </template>

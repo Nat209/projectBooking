@@ -1,6 +1,6 @@
 <template>
   <div class="search container mt-4">
-    <h2 class="text-light mb-4">Hotel que se adapte a tus preferencias</h2>
+    <h2 class="text-light mb-4">Reserva en el Hotel que más se adapte a ti</h2>
     <div class="text-center">
       <form @submit.prevent="handelSubmit">
         <div class="row g-3">
@@ -179,11 +179,22 @@
           </div>
           <!-- Contenido de la tarjeta -->
           <div class="card-body">
-            <h5 class="card-title">{{ result.property.name }}</h5>
+            <div  class="row">
+              <div class="col-10">
+                <h5 class="card-title">{{ result.property.name }}</h5>
+                
+              </div>
+              <div class="col-2">
+                <ComponentFavorities/>
+              </div>
+              
+            
+            </div>
+            
             <p class="card-text">{{ result.accessibilityLabel }}</p>
             <a :href="'/hotelDetail/' + result.hotel_id + '/' + result.property.checkinDate + '/' + result.property.checkoutDate" class="btn btn-primary">Ver detalles</a>
 
-            >
+            
           </div>
         </div>
       </div>
@@ -197,6 +208,7 @@
 <script setup>
 import { ref, computed } from "vue";
 import { useSearchStore } from "@/stores/searchStore";
+import ComponentFavorities from "./ComponentFavorities.vue";
 
 const searchStore = useSearchStore();
 

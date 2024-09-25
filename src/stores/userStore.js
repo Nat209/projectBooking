@@ -32,7 +32,7 @@ export const useUserStore = defineStore('user', () => {
     console.log(nombre, correo, contrasena)
     try {
       // Usar axios.post de la forma correcta
-      const response = await axios.post(`http://localhost:3000/api/usuario`, {
+      const response = await axios.post(`http://localhost:3000/api/auth/usuario`, {
         nombre: nombre,
         correo: correo,
         contrasena: contrasena

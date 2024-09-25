@@ -5,6 +5,7 @@ import { defineStore } from 'pinia'
 export const useSearchStore = defineStore('search', () => {
     const HotelNameSuggestion = ref([]);
     const searchResults =ref([])
+    const searchDestinationResults =ref([])
 
 
     const HotelNameFunction = async (hotelSearch) => {
@@ -57,11 +58,39 @@ export const useSearchStore = defineStore('search', () => {
                 console.error(error);
             }
     }
+    const filterDestination = async(query)=>{
+        
+        const options = {
+        method: 'GET',
+        url: 'https://booking-com15.p.rapidapi.com/api/v1/hotels/searchDestination',
+        params: {
+            query: query,
+            
+            languagecode: 'es'
+        },
+        headers: {
+            'x-rapidapi-key': '9c7be886bcmsh39490f62171de4fp1c9197jsn2e944440c5a4',
+            'x-rapidapi-host': 'booking-com15.p.rapidapi.com'
+        }
+        };
+
+        try {
+            const response = await axios.request(options);
+          
+            searchDestinationResults.value =response.data
+        } catch (error) {
+            console.error(error);
+        }
+}
 
     return {
         HotelNameFunction,
-        HotelNameSuggestion,
         filter,
-        searchResults 
+        filterDestination,
+        searchDestinationResults,
+        searchResults,
+        HotelNameSuggestion
+        
+        
     }
 });

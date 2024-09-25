@@ -6,8 +6,8 @@
 
       <!-- Enlaces de navegación -->
       <ul class="nav-links">
-        <router-link to="/">Home</router-link>
-        <li><a href="#">Buscar Hoteles</a></li>
+        <router-link to="/">Reserva tu Hotel</router-link>
+        <li><router-link to="/list">Buscar Destinos</router-link></li>
       </ul>
 
       <!-- Botones de Iniciar Sesión y Registrarse -->
