@@ -25,6 +25,7 @@
   
   <style scoped>
   .footer {
+    max-height: 5em;
     display: flex;
     justify-content: space-between;
     align-items: center;

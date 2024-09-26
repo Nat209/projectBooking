@@ -10,17 +10,29 @@
   </template>
   
   <script setup>
-  import { ref } from 'vue';
+  import { ref, defineProps } from 'vue';
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
   import { faHeart } from '@fortawesome/free-solid-svg-icons';
+  import { useHotelFavoriteStore } from '@/stores/favoritesHotelStore';
   
+  const favoritesHotelStore = useHotelFavoriteStore()
   // Registrar el ícono globalmente
   import { library } from '@fortawesome/fontawesome-svg-core';
   library.add(faHeart);
+
+  const props= defineProps({
+    idHotel:Number,
+    hotelName:String,
+    date_check:String,
+    date_checkout:String,
+
+  })
   
   const isFavorite = ref(false);
   
-  const toggleFavorite = () => {
+  
+  const toggleFavorite = async () => {
+    await favoritesHotelStore.SavehotelFavorite(props.idHotel,props.hotelName, props.date_check, props.date_checkout)
     isFavorite.value = !isFavorite.value;
   };
   </script>

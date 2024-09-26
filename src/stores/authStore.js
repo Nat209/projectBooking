@@ -22,6 +22,9 @@ export const useAuthStore = defineStore('auth', () => {
       use_mail.value = response.data.user.correo
       console.log(token.value, use_id.value, use_mail.value)
 
+      localStorage.setItem('token', token.value)
+      localStorage.setItem('id', use_id.value)
+
       // Redirigir al perfil después de iniciar sesión correctamente
       router.push('/perfil')
       
@@ -29,11 +32,17 @@ export const useAuthStore = defineStore('auth', () => {
       console.error(error)
     }
   }
+  const logout=()=>{ 
+    localStorage.clear('token')
+    localStorage.clear('id')
+    router.push('/')
+  }
 
   return {
     token,
     use_id,
     use_mail,
-    login
+    login,
+    logout
   }
 })

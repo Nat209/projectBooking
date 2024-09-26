@@ -28,12 +28,18 @@ const router = createRouter({
     {
       path: '/perfil',
       name: 'perfil',
-      component: PerfilView
+      component: PerfilView,
+      meta: {
+        auth: true
+      }
     },
     {
       path: '/favoritos',
       name: 'favoritos',
-      component: FavoritesView
+      component: FavoritesView,
+      meta: {
+        auth: true
+      }
     },
     {
       path: '/actividades',
@@ -58,15 +64,22 @@ const router = createRouter({
   ]
 })
 
-// Aquí es donde agregas el tercer paso (verificación de sesión)
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore(); // Usa el store para verificar si hay un token
+  const isAuthenticated = !!localStorage.getItem('token'); // Verifica si el usuario tiene token
 
-  if (to.name === 'perfil' && !authStore.token) {
-    next('/login'); // Si intenta acceder al perfil y no está autenticado, redirige a login
-  } else {
-    next(); // Si está autenticado o la ruta no es protegida, permite la navegación
+  // Si el usuario intenta ir a 'login' o 'register' pero ya está autenticado, redirige a perfil o página principal
+  if ((to.name === 'login' || to.name === 'register') && isAuthenticated) {
+    next('/perfil'); // Redirige a la página protegida
+  }
+  // Si el usuario intenta ir a una ruta protegida sin autenticarse, redirige a login
+  else if (to.name === 'perfil' && !isAuthenticated) {
+    next('/login'); // Redirige a la página de login si no está autenticado
+  } 
+  else {
+    next(); // Permite la navegación si las condiciones no son de restricción
   }
 });
+
 
 export default router;

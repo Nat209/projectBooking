@@ -1,10 +1,10 @@
 <template>
   <div class="search container mt-4">
-    <h2 class="text-light mb-4">Reserva en el Hotel que más se adapte a ti</h2>
+    <h2 class="text-dark mb-4"><font-awesome-icon :icon="['fas', 'hotel']" size="l" style="color: #0DCAF0;" /> Reserva en el Hotel que más se adapte a ti</h2>
     <div class="text-center">
       <form @submit.prevent="handelSubmit">
         <div class="row g-3">
-          <div class="col-sm-12 col-md-6 col-lg-4">
+          <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="input-group position-relative">
               <span class="input-group-text"><i class="bi bi-geo"></i></span>
               <input
@@ -102,7 +102,7 @@
           </div>
 
           <div class="col-12">
-            <button class="btn btn-primary w-100">Buscar</button>
+            <button class="btn btn-info w-100">Buscar</button>
           </div>
         </div>
       </form>
@@ -185,14 +185,14 @@
                 
               </div>
               <div class="col-2">
-                <ComponentFavorities/>
+                <ComponentFavorities v-if="isAuthenticated"  :idHotel="result.hotel_id" :hotelName="result.property.name " :date_check="result.property.checkinDate" :date_checkout="result.property.checkoutDate"/>
               </div>
               
             
             </div>
             
             <p class="card-text">{{ result.accessibilityLabel }}</p>
-            <a :href="'/hotelDetail/' + result.hotel_id + '/' + result.property.checkinDate + '/' + result.property.checkoutDate" class="btn btn-primary">Ver detalles</a>
+            <a :href="'/hotelDetail/' + result.hotel_id + '/' + result.property.checkinDate + '/' + result.property.checkoutDate" class="btn btn-info">Ver detalles</a>
 
             
           </div>
@@ -206,10 +206,14 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useSearchStore } from "@/stores/searchStore";
 import ComponentFavorities from "./ComponentFavorities.vue";
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faHotel } from '@fortawesome/free-solid-svg-icons';
 
+import { library } from '@fortawesome/fontawesome-svg-core';
+library.add(faHotel);
 const searchStore = useSearchStore();
 
 const place = ref("");
@@ -222,6 +226,18 @@ const children = ref("");
 const room = ref("");
 const suggestions = computed(() => searchStore.HotelNameSuggestion);
 const searchResults = ref([]); // Usa computed para acceder a los resultados del store
+
+const isAuthenticated = ref(false); // Estado para verificar la autenticación
+
+// Comprobar si el token está presente en el localStorage al cargar el componente
+onMounted(() => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    isAuthenticated.value = true; // Si hay token, mostramos el componente
+  } else {
+    isAuthenticated.value = false; // Si no hay token, no mostramos el componente
+  }
+});
 
 const handlHotelName = async () => {
   if (place.value !== "") {
@@ -253,8 +269,10 @@ const handelSubmit = async () => {
 
 <style scoped>
 .search {
-  background-color: rgb(159, 125, 204);
   padding: 2em;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ddeef6
 }
 
 .input-group {
@@ -271,15 +289,39 @@ const handelSubmit = async () => {
   z-index: 10;
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin-top: 0.5em;
+  border-radius: 5px; /* Bordes redondeados */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .suggestions-list li {
-  padding: 8px;
+  padding: 10px;
   cursor: pointer;
+  transition: background-color 0.2s; /* Transición suave */
 }
 
 .suggestions-list li:hover {
-  background-color: #f0f0f0;
+  background-color: #e8e8e8; /* Color de fondo al pasar el mouse */
 }
+
+.results .list-group-item {
+  padding: 1.5em; /* Mayor espaciado */
+}
+
+.hotel-info {
+  display: flex;
+  align-items: center; /* Alinea el contenido verticalmente */
+}
+
+.img-fluid {
+  max-width: 100%; /* Asegura que la imagen no sobrepase el contenedor */
+  height: auto; /* Mantiene la proporción de la imagen */
+  border-radius: 5px; /* Bordes redondeados para la imagen */
+}
+
+.carousel-inner img {
+  border-radius: 10px; /* Bordes redondeados para las imágenes del carrusel */
+}
+
 </style>
+

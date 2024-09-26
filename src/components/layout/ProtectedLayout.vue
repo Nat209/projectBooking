@@ -6,15 +6,15 @@
 
       <!-- Enlaces de navegación -->
       <ul class="nav-links">
-        <router-link to="/" class="nav-link">Home</router-link>
-        <router-link to="/actividades" class="nav-link">Actividades</router-link>
+        <router-link to="/" class="nav-link">Buscar Reservas</router-link>
+        <router-link to="/list" class="nav-link">Buscar Destinos</router-link>
         <router-link to="/favoritos" class="nav-link">Favoritos</router-link>
         <router-link to="/perfil" class="nav-link">Perfil</router-link>
       </ul>
 
       <!-- Botones de Iniciar Sesión y Registrarse -->
       <div class="auth-buttons">
-        <router-link v-if="showLogin" class="login btn btn-danger" to="/">Cerrar Sesión</router-link>
+        <button v-if="showLogin" @click="logout()"  class="login btn btn-danger" to="/">Cerrar Sesión</button>
       </div>
     </div>
   </nav>
@@ -22,6 +22,16 @@
 
 <script setup>
 import { defineProps } from 'vue';
+import { useAuthStore } from '@/stores/authStore'; 
+
+const authStore = useAuthStore()
+
+const logout =()=>{
+  authStore.logout()
+}
+
+
+
 
 // Define la propiedad 'showRegister'
 const props = defineProps({

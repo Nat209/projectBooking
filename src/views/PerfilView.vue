@@ -4,7 +4,7 @@
     <!-- Imagen del perfil a la izquierda -->
     <div class="profile-image">
       <img src="../assets/img/icono.png" class="login-image">
-      <input type="file" @change="handleFileChange" class="file-input" />
+     
     </div>
 
     <!-- Información del perfil a la derecha -->
@@ -39,19 +39,10 @@ onMounted(async () => {
   await userStore.read();
   user.value = await userStore.user;
   console.log('Usuario:',user.value); // Verifica qué datos se están cargando
-  userPhoto.value = userStore.userPhoto || '/src/assets/img/default-profile.jpg';
+
 });
 
-const handleFileChange = (event) => {
-  const file = event.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      userPhoto.value = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  }
-};
+
 </script>
 <style scoped>
 .profile-container {

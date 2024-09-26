@@ -2,12 +2,12 @@ import { ref } from 'vue'
 import axios from 'axios'
 import { defineStore } from 'pinia'
 import router from '../router/index'
-import { useAuthStore } from './authStore.js'
+
 
 
 export const useUserStore = defineStore('user', () => {
-  const authStore =useAuthStore()
-  const use_id = authStore.use_id
+
+  const use_id = localStorage.getItem('id')
 
   const user=ref('')
   
@@ -18,7 +18,7 @@ export const useUserStore = defineStore('user', () => {
       // Usar axios.post de la forma correcta
       const response = await axios.get(`http://localhost:3000/api/usuario/${use_id}`, {
         headers: {
-          'authorization': `${authStore.token}`
+          'authorization': localStorage.getItem('token')
         }
       })
       user.value= response.data
