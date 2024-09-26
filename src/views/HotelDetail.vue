@@ -2,19 +2,18 @@
   <component :is="isAuthenticated ? ProtectedLayout : GeneralLayout"></component>
 
   <div class="hotel-detail container mt-4" v-if="hotel">
-    <ComponentModal :IdHotel="hotel.data.hotel_id" :address="hotel.data.address" :arrival_date="hotel.data.arrival_date" :departure_date="hotel.data.departure_date" :hotel_name="hotel.data.hotel_name" :city="hotel.data.city"/>
+    <ComponentModal v-if="isAuthenticated" :IdHotel="hotel.data.hotel_id" :address="hotel.data.address" :arrival_date="hotel.data.arrival_date"
+      :departure_date="hotel.data.departure_date" :hotel_name="hotel.data.hotel_name" :city="hotel.data.city" />
     <section class="hotel-details">
       <div class="hotel-card">
         <div class="hotel-header">
           <div class="row">
             <div class="col-10">
-          <h2 class="hotel-name"><font-awesome-icon :icon="['fas', 'hotel']" size="xl" style="color: #0DCAF0;" />{{ hotel.data.hotel_name }}</h2>
-
-
+              <h2 class="hotel-name"><font-awesome-icon :icon="['fas', 'hotel']" size="xl" style="color: #0DCAF0;" />{{  hotel.data.hotel_name }}</h2>
             </div>
-            <div class="col-2 text-end">
+            <div class="col-2 text-end" v-if="isAuthenticated">
               <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">Reservar</button>
-          
+
             </div>
           </div>
           <p class="hotel-location">{{ hotel.data.city_name_en }}, {{ hotel.data.country_trans }}</p>
@@ -28,11 +27,15 @@
           <div class="info-item"><strong>Tipo de alojamiento:</strong> {{ hotel.data.accommodation_type_name }}</div>
           <div class="info-item"><strong>Habitaciones disponibles:</strong> {{ hotel.data.available_rooms }}</div>
           <div class="info-item"><strong>Puntuación de wifi:</strong> {{ hotel.data.wifi_review_score.rating }}</div>
-          <div class="info-item"><strong>Puntuación de desayuno:</strong> {{ hotel.data.breakfast_review_score.rating }}</div>
-          <div class="info-item"><strong>Descripción:</strong> {{ hotel.data.hotel_text && Object.keys(hotel.data.hotel_text).length > 0 ? hotel.data.hotel_text : 'No hay descripción disponible.' }}</div>
+          <div class="info-item"><strong>Puntuación de desayuno:</strong> {{ hotel.data.breakfast_review_score.rating }}
+          </div>
+          <div class="info-item"><strong>Descripción:</strong> {{ hotel.data.hotel_text &&
+            Object.keys(hotel.data.hotel_text).length > 0 ? hotel.data.hotel_text : 'No hay descripción disponible.' }}
+          </div>
           <div class="info-item"><strong>Fecha de llegada:</strong> {{ hotel.data.arrival_date }}</div>
           <div class="info-item"><strong>Fecha de salida:</strong> {{ hotel.data.departure_date }}</div>
-          <div class="info-item"><strong>Precio promedio por noche:</strong> {{ hotel.data.product_price_breakdown.gross_amount_per_night.amount_rounded }}</div>
+          <div class="info-item"><strong>Precio promedio por noche:</strong> {{
+            hotel.data.product_price_breakdown.gross_amount_per_night.amount_rounded }}</div>
           <div class="info-item"><strong>Opiniones:</strong> {{ hotel.data.review_nr }} reseñas</div>
         </div>
       </div>
@@ -45,14 +48,14 @@
             {{ item.name }}
           </span>
         </div>
-      </div> 
+      </div>
     </section>
   </div>
 
   <div v-else>
     <p>Cargando detalles del hotel...</p>
   </div>
- 
+
 </template>
 
 <script setup>
@@ -107,7 +110,16 @@ const getBootstrapIcon = (name) => {
 
 onMounted(() => {
   fetchHotelDetails();
+  const token = localStorage.getItem('token');
+  if (token) {
+    isAuthenticated.value = true; // Si hay token, mostramos el componente
+  } else {
+    isAuthenticated.value = false; // Si no hay token, no mostramos el componente
+  }
 });
+
+
+
 </script>
 
 <style scoped>
@@ -158,7 +170,8 @@ onMounted(() => {
 .property-highlights {
   margin-top: 20px;
 }
-.highlight-tag:hover{
+
+.highlight-tag:hover {
   background-color: #0DCAF0;
   cursor: pointer;
 }
@@ -169,7 +182,8 @@ onMounted(() => {
 }
 
 .highlight-tag {
-  background-color: #f0f0f0; /* Color de fondo de las etiquetas */
+  background-color: #f0f0f0;
+  /* Color de fondo de las etiquetas */
   border-radius: 5px;
   padding: 5px 10px;
   margin: 5px;
@@ -178,7 +192,9 @@ onMounted(() => {
 }
 
 .highlight-icon {
-  margin-right: 5px; /* Espaciado entre el icono y el texto */
-  font-size: 16px; /* Ajusta el tamaño del icono */
+  margin-right: 5px;
+  /* Espaciado entre el icono y el texto */
+  font-size: 16px;
+  /* Ajusta el tamaño del icono */
 }
 </style>
