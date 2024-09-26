@@ -2,6 +2,7 @@
   <component :is="isAuthenticated ? ProtectedLayout : GeneralLayout"></component>
 
   <div class="hotel-detail container mt-4" v-if="hotel">
+    <ComponentModal :IdHotel="hotel.data.hotel_id" :address="hotel.data.address" :arrival_date="hotel.data.arrival_date" :departure_date="hotel.data.departure_date" :hotel_name="hotel.data.hotel_name" :city="hotel.data.city"/>
     <section class="hotel-details">
       <div class="hotel-card">
         <div class="hotel-header">
@@ -12,7 +13,7 @@
 
             </div>
             <div class="col-2 text-end">
-              <button class="btn btn-info">Reservar</button>
+              <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">Reservar</button>
           
             </div>
           </div>
@@ -44,13 +45,14 @@
             {{ item.name }}
           </span>
         </div>
-      </div>
+      </div> 
     </section>
   </div>
 
   <div v-else>
     <p>Cargando detalles del hotel...</p>
   </div>
+ 
 </template>
 
 <script setup>
@@ -63,6 +65,7 @@ import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useHotelStore } from '@/stores/hotelStore.js';
 import { library } from '@fortawesome/fontawesome-svg-core';
+import ComponentModal from '@/components/ComponentModal.vue';
 library.add(faHotel);
 
 const route = useRoute();

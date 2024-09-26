@@ -42,9 +42,12 @@ const router = createRouter({
       }
     },
     {
-      path: '/actividades',
-      name: 'actividades',
-      component: ActividadesView
+      path: '/reservas',
+      name: 'reservas',
+      component: ActividadesView,
+      meta: {
+        auth: true
+      }
     },
     {
       path: '/hotelDetail/:id/:checkin/:checkout',

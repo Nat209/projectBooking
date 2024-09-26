@@ -9,6 +9,7 @@
         <router-link to="/" class="nav-link">Buscar Reservas</router-link>
         <router-link to="/list" class="nav-link">Buscar Destinos</router-link>
         <router-link to="/favoritos" class="nav-link">Favoritos</router-link>
+        <router-link to="/reservas" class="nav-link">Mis reservas</router-link>
         <router-link to="/perfil" class="nav-link">Perfil</router-link>
       </ul>
 

@@ -1,97 +1,92 @@
 <template>
-    <GeneralLayout :showRegister="false" />
-    <section class="activities">
-      <h2>Actividades</h2>
-      <div class="activities-grid">
-        <div v-for="activity in activities" :key="activity.id" class="activity-card">
-          <img :src="activity.image" :alt="activity.name" class="activity-image" />
-          <div class="activity-info">
-            <h3 class="activity-name">{{ activity.name }}</h3>
-            <p class="activity-description">{{ activity.description }}</p>
-          </div>
-        </div>
-      </div>
-    </section>
-  </template>
-  
-  <script setup>
-  import GeneralLayout from '@/components/layout/ProtectedLayout.vue';
-  import { ref } from 'vue';
-  
-  const activities = ref([
-    {
-      id: 1,
-      name: 'Tour por la Ciudad',
-      description: 'Explora los principales lugares de interés de la ciudad con un guía experto.',
-      image: '/src/assets/img/hotel2.jpeg'
-    },
-    {
-      id: 2,
-      name: 'Excursión a la Montaña',
-      description: 'Disfruta de una caminata en la montaña y contempla vistas espectaculares.',
-      image: '/src/assets/img/hotel3.jpeg'
-    },
-    {
-      id: 3,
-      name: 'Relax en la Playa',
-      description: 'Pasa un día en la playa con actividades acuáticas y relajación bajo el sol.',
-      image: '/src/assets/img/hotel1.jpg'
-    }
-  ]);
-  </script>
-  
-  <style scoped>
-  .activities {
-    padding: 20px;
-    background-color: #f9f9f9; /* Fondo ligeramente gris */
-    text-align: center;
-    margin-top: 40px;
-  }
-  
-  .activities h2 {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
-  
-  .activities-grid {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  .activity-card {
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    width: 250px; /* Ajusta el ancho según tu diseño */
-    text-align: left;
-  }
-  
-  .activity-image {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-  }
-  
-  .activity-info {
-    padding: 15px;
-  }
-  
-  .activity-name {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 10px;
-  }
-  
-  .activity-description {
-    font-size: 16px;
-    color: #666;
-  }
-  </style>
-  
+  <GeneralLayout :showRegister="false" />
+  <section class="favorites">
+    <h2>Mis Reservas</h2>
+    <table class="table table-striped">
+      <thead class="table-info">
+        <tr>
+          <th># Reserva</th>
+          <th>Fecha de la reserva</th>
+          <th>Nombre del Hotel</th>
+          <th>Check-in</th>
+          <th>Check-out</th>
+          <th>Ciudad</th>
+          <th>Dirección</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="reserva in data" :key="reserva.ID_Reserva">
+          <td>{{ reserva.ID_Reserva }}</td>
+          <td>{{ reserva.fecha }}</td>
+          <td>{{ reserva.hotel_Nombre }}</td>
+          <td>{{ reserva.dia_chequeo }}</td>
+          <td>{{ reserva.dia_idaHotel }}</td>
+          <td>{{ reserva.ciudad }}</td>
+          <td>{{ reserva.direccion }}</td>
+          
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</template>
+
+<script setup>
+import GeneralLayout from '@/components/layout/ProtectedLayout.vue';
+import { ref, onMounted } from 'vue';
+import { useReservaStore } from '@/stores/reservaStore';
+
+const reservaStore = useReservaStore();
+const data = ref([]);
+
+onMounted(async () => {
+  await reservaStore.ShowReservas();
+  data.value = reservaStore.reservaList; // Asegúrate de que hotelList contiene los datos correctos
+});
+</script>
+
+<style scoped>
+.favorites {
+  padding: 20px;
+  background-color: #f9f9f9; /* Fondo ligeramente gris */
+  text-align: center; /* Centra el título */
+  margin-top: 40px; /* Espacio superior para desplazar la sección hacia abajo */
+}
+
+.favorites h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.favorites-list {
+  list-style-type: none; /* Elimina los puntos de la lista */
+  padding: 0;
+  margin: 0;
+}
+
+.hotel-item {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px; /* Espacio entre los elementos de la lista */
+  padding: 15px;
+  text-align: left;
+}
+
+.hotel-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hotel-name {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.btn-info {
+  color: #fff;
+}
+</style>
